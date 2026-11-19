@@ -1,0 +1,16 @@
+{
+  "name": "terravue",
+  "version": "0.1.0",
+  "description": "TERRAVUE - free, no-login weather radar, flood, wind and sea safety app for Filipino riders, hikers and fisherfolk.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "demo": "TERRAVUE_DEMO=1 node server/index.js",
+    "test": "node test/smoke.mjs && node test/features.mjs && node test/client.mjs && node test/nav.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
