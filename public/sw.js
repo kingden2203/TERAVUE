@@ -1,5 +1,5 @@
 // TERRAVUE service worker: offline shell, offline map tiles, last-known API answers, and push notifications.
-const V = 'v3';
+const V = 'v4';
 const SHELL = `terravue-shell-${V}`;
 const LIB = `terravue-lib-${V}`;
 const TILES = 'terravue-tiles'; // tiles seen while browsing (capped)

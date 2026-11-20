@@ -6,6 +6,7 @@
   <title>TERRAVUE — Radar, Baha at Hangin para sa Pilipinas</title>
   <meta name="description" content="Libreng weather radar, flood risk, hangin at alon para sa mga mangingisda, rider at hiker sa Pilipinas. Walang login.">
   <meta name="theme-color" content="#060b16">
+  <script>try{var t=localStorage.getItem("tv.theme");t=t?JSON.parse(t):(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -33,6 +34,7 @@
     </form>
     <div class="actions">
       <button class="icon" data-act="locate" data-i18n-title="locate">◎</button>
+      <button class="icon theme-btn" id="btnTheme" data-act="theme" aria-label="Dark / Light">☀</button>
       <button class="icon txt" id="btnLang" data-act="lang">EN</button>
     </div>
   </header>

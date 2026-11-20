@@ -23,7 +23,8 @@ const S = {
   lang: LS.get('lang', 'fil'),
   layers: { radar: true, sat: false, wind: false, wave: false, risk: true, zones: false, storms: true, alerts: true, hydro: true, trails: false, reports: true, floodmap: false, ...LS.get('layers', {}) },
   riskKind: LS.get('riskKind', 'overall'),
-  base: LS.get('base', 'dark'),
+  theme: LS.get('theme', matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'),
+  base: LS.get('base', matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'),
   tab: 'place', place: null, placeLL: null,
   route: { from: null, to: null, speed: 8, pick: null, res: null, sel: 0 },
   grid: null, alerts: { alerts: [] }, storms: { storms: [] },
@@ -78,6 +79,15 @@ function setBase(k) {
   if (baseLayer) map.removeLayer(baseLayer);
   baseLayer = L.tileLayer(...BASES[k]).addTo(map);
   document.body.dataset.base = k;
+}
+
+function setTheme(th, { keepBase = false } = {}) {
+  S.theme = th === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = S.theme;
+  $('#btnTheme').textContent = S.theme === 'light' ? '☾' : '☀';
+  document.querySelector('meta[name=theme-color]')?.setAttribute('content', S.theme === 'light' ? '#f1f5fb' : '#060b16');
+  if (!keepBase && S.base !== 'sat' && S.base !== S.theme) { S.base = S.theme; setBase(S.base); renderLayers(); }
+  LS.set('theme', S.theme); LS.set('base', S.base);
 }
 
 /* ------------------------------------------------- official flood susceptibility */
@@ -514,6 +524,7 @@ document.addEventListener('click', (e) => {
     case 'layer': S.layers[v] = el.checked; syncAll(); break;
     case 'riskkind': S.riskKind = v; syncAll(); break;
     case 'base': S.base = v; setBase(v); renderLayers(); persist(); break;
+    case 'theme': setTheme(S.theme === 'light' ? 'dark' : 'light'); break;
     case 'play': play(); break;
     case 'pick-from': startPick('from'); break;
     case 'pick-to': startPick('to'); break;
@@ -568,6 +579,7 @@ const ctx = { L, map, S, LS, api, toast, hint, setDemo, pickPlace, openTab, rend
 [hydro, trails, reports, offline, push, nav].forEach((m) => m.init(ctx));
 setLang(S.lang);
 setBase(S.base);
+setTheme(S.theme, { keepBase: true });
 renderStatic();
 openTab('place');
 if (isMobile()) closeSheet();
